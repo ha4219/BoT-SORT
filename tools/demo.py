@@ -13,7 +13,7 @@ sys.path.append('.')
 from yolox.data.data_augment import preproc
 from yolox.exp import get_exp
 from yolox.utils import fuse_model, get_model_info, postprocess
-from yolox.utils.visualize import plot_tracking
+from yolox.utils.visualize import plot_tracking, plot_tracking_bottom
 from tracker.bot_sort import BoTSORT
 from tracker.tracking_utils.timer import Timer
 
@@ -267,7 +267,7 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                             f"{frame_id},{tid},{tlwh[0]:.2f},{tlwh[1]:.2f},{tlwh[2]:.2f},{tlwh[3]:.2f},{t.score:.2f},-1,-1,-1\n"
                         )
                 timer.toc()
-                online_im = plot_tracking(
+                online_im = plot_tracking_bottom(
                     img_info['raw_img'], online_tlwhs, online_ids, frame_id=frame_id + 1, fps=1. / timer.average_time
                 )
             else:
@@ -365,4 +365,7 @@ if __name__ == "__main__":
     args.ablation = False
     args.mot20 = not args.fuse_score
 
+    start = time.time()
+    print('start')
     main(exp, args)
+    print('end', time.time() - start)
